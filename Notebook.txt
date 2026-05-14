@@ -1,0 +1,14 @@
+Folgende Funktionen sind zu implementieren:
+[] Git Hub
+
+[] User Authentifizierung
+[] Tankstellen Autovervollstädigung gem. Liste
+[] KM Stand min Wert ermitteln (Kilometerstand)
+[] Dateiname CVS export datum Anhängen
+[] Einträge Zählen  und anzeigen
+[] Summmen Anzeigen
+[] Schnittverbrauch Anzeigen
+[] Mehrbenuzerschnittstellen vorbereiten
+[] CSV  Import
+[] Bei Sehr vielen Einträgen Page's verwenden
+[]
