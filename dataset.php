@@ -157,13 +157,62 @@ include_once 'sql_conn.php';
     </style>
 </head>
 <body>
+<div class="container-fluid" >
+    <a href="home.php" class="btn btn-primary m-4"><i class="fas fa-home"></i></a>
+    <a href="export.php" class="btn btn-success m-4"><i class="fas fa-file-csv"></i></a>
+    <a href="#"  onclick="javascirpt:alert('Nicht implementert')" class="btn btn-secondary m-4"><i class="fas fa-search"></i></a>
+    <a href="new_entry_dialog.php"  class="btn btn-secondary m-4"><i class="fas fa-plus"></i></a>
+
+</div>
+
+<div class="container-fluid">
 
 
-<div class="container">
+    <?php
 
-    <a href="home.php" class="btn btn-primary m-4">Zurück zur Startseite</a>
-    <a href="export.php" class="btn btn-success m-4">.CSV</a>
-    <div >
+    $pdo_con = connect_pdo();
+
+
+    $sql = "SELECT SUM(LITER) FROM " . TB_TANK ;
+    $stmt = $pdo_con->prepare($sql);
+    $stmt->execute();
+
+    $totalLiter = $stmt->fetchColumn();
+
+
+    $sql = "SELECT SUM(PREIS) FROM " . TB_TANK ;
+    $stmt = $pdo_con->prepare($sql);
+    $stmt->execute();
+
+    $totalPrice = $stmt->fetchColumn();
+
+    $sql = "SELECT COUNT(ID) FROM " . TB_TANK ;
+    $stmt = $pdo_con->prepare($sql);
+    $stmt->execute();
+    $entryCount = $stmt->fetchColumn();
+
+    $sql = "SELECT MAX(KM_STAND) FROM " . TB_TANK ;
+    $stmt = $pdo_con->prepare($sql);
+    $stmt->execute();
+    $maxKm = $stmt->fetchColumn();
+
+
+    $sql = "SELECT MIN(KM_STAND) FROM " . TB_TANK ;
+    $stmt = $pdo_con->prepare($sql);
+    $stmt->execute();
+    $minKm = $stmt->fetchColumn();
+
+
+
+    $pdo_con = null;
+
+    $averagePricePerLiter = $totalLiter > 0 ? $totalPrice / $totalLiter : 0;
+    $drivenKm = ($minKm !== null && $maxKm !== null) ? $maxKm - $minKm : 0;
+    $averageLiterPerKm = $drivenKm > 0 ? $totalLiter / $drivenKm : 0;
+    ?>
+
+    <div class="row">
+        <div class="col-md-9">
         <table class="table table-striped table-hover width">
             <thead>
                 <tr>
@@ -213,6 +262,22 @@ include_once 'sql_conn.php';
 
         </table>
     </div>
+        <div class="col-md-3 mb-4">
+            <div class="card shadow-sm">
+                <div class="card-header bg-primary text-white">
+                    Zusammenfassung
+                </div>
+                <div class="card-body">
+                    <p><strong>Einträge:</strong><br><?= $entryCount ?>
+                    <p><strong>Gefahrene km:</strong><br><?= number_format($drivenKm, 0, '.', '\'') ?> km</p>
+                    <p><strong>Liter gesamt:</strong><br><?= number_format($totalLiter, 2, '.', '\'') ?> L</p>
+                    <p><strong>Kosten gesamt:</strong><br><?= number_format($totalPrice, 2, '.', '\'') ?> CHF</p>
+                    <p><strong>Ø Preis/Liter:</strong><br><?= number_format($averagePricePerLiter, 2, '.', '\'') ?> CHF</p>
+
+                    <p><strong>Ø Liter/km:</strong><br><?= number_format($averageLiterPerKm, 2, '.', '\'') ?> L/km</p>
+                </div>
+            </div>
+        </div>
 </div>
 
 

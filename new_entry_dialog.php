@@ -1,5 +1,21 @@
 <?php
-require_once 'auth_control.php';
+
+    $aut_control = __DIR__.'/auth_control.php';
+    $sql_connection = __DIR__.'/sql_conn.php';
+
+    if ( file_exists($aut_control) && file_exists($sql_connection) )
+    {
+
+        require_once 'auth_control.php';
+        require_once 'sql_conn.php';
+    }
+    else
+    {
+
+        echo "Fehler: Dateien nicht gefunden: 202605141015";
+        exit;
+    }
+
 ?>
 
 <!DOCTYPE html>
@@ -263,6 +279,7 @@ require_once 'auth_control.php';
             <button id="speichern" type="button" onclick="saveEntry()">Speichern</button>
             <button id="reset" type="button" onClick="window.location.reload()">Reset</button>
             <button id="abbrechen" type="button"  onClick="window.location.href='home.php'">Abbrechen</button>
+            <button id="Einträge" type="button"  onClick="window.location.href='dataset.php?action=show_entries'">Einträge</button>
         </div>
 
         <p class="hint">Tipp: Mit Tab kannst du schnell durch alle Felder springen.</p>
@@ -270,9 +287,26 @@ require_once 'auth_control.php';
 </main>
 
 <datalist id="tankstellen_liste">
-    <option value="Coop Pronto Ostermundigen">
-    <option value="Coop Pronto Heimberg">
-    <option value="Spar Heimberg">
+
+    <?php
+
+    $pdo = connect_pdo();
+
+    $sql = "SELECT DISTINCT ort FROM ".TB_TANK;
+
+    $stmt = $pdo->query($sql);
+
+    if($stmt->rowCount() >0)
+    {
+        while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
+            echo '<option value="' . htmlspecialchars($row['ort']) . '">';
+        }
+    }
+    else
+    {
+        echo '<option value ="">';
+    }
+    ?>
 </datalist>
 </html>
 
