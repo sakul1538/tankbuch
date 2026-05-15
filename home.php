@@ -115,7 +115,7 @@ require_once 'auth_control.php';
                     <div class="card">
                         <div class="card-body">
                             <h5 class="card-title">Info</h5>
-                            <p class="card-text">Version 10.05.2026</p>
+                            <p class="card-text">Version 15.05.2026</p>
                         </div>
                     </div>
                 </div>

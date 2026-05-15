@@ -224,8 +224,8 @@
                     }
                     else
                     {
-                        console.error("Fehler beim Speichern:", data.error);
-                        alert("Fehler beim Speichern: " + data.error);
+                        console.error("Fehler beim Speichern:", data.message);
+                        alert("Fehler beim Speichern: " + data.message);
                     }
                 }
             )
@@ -269,7 +269,30 @@
             </div>
 
             <div class="field full">
-                <label for="km_stand">Km Stand</label>
+                <label for="km_stand">Kilomenterstand (
+                <?php
+
+                $pdo_con = connect_pdo();
+                $stmt = $pdo_con->prepare("SELECT MAX(KM_STAND) FROM ".TB_TANK);
+                $stmt->execute();
+                $kmstand= $stmt->fetchColumn();
+                if($kmstand != null)
+                {
+                    echo $kmstand. " km  ";
+
+                }
+                else
+                {
+                    echo "0 km";
+                }
+
+
+
+
+
+                ?>
+                )
+                </label>
                 <input type="number" id="km_stand" min="0" step="1" placeholder="z. B. 125000">
             </div>
         </div>

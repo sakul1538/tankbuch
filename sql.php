@@ -10,6 +10,9 @@ if(isset($_POST['route']))
         case 'new_entry':
 
             //todo check if user is logged in
+
+
+
             $id = uniqid();
             $ort = $_POST['tankstelle'];
             $datum = $_POST['datum'];
@@ -19,43 +22,61 @@ if(isset($_POST['route']))
             $preis = $_POST['preis'];
             $user_id = $_POST['user_id'];
 
+
+
             try {
-                $pdo = connect_pdo();
+                    $pdo = connect_pdo();
 
-                $sql = "INSERT INTO " . TB_TANK . " 
-                            (ID, DATUM, ZEIT, ORT, LITER, PREIS, KM_STAND) 
-                            VALUES 
-                            (:id, :datum, :zeit, :ort, :liter, :preis, :km_stand)";
+                    $sql = "SELECT MAX(KM_STAND) FROM " . TB_TANK;
+                    $stmt = $pdo->prepare($sql);
+                    $stmt->execute();
+                    $max_km_stand = $stmt->fetchColumn();
 
-                $stmt = $pdo->prepare($sql);
+                    if ($max_km_stand < $km_stand)
+                    {
+                        $sql = "INSERT INTO " . TB_TANK . " 
+                                    (ID, DATUM, ZEIT, ORT, LITER, PREIS, KM_STAND) 
+                                    VALUES 
+                                    (:id, :datum, :zeit, :ort, :liter, :preis, :km_stand)";
+                        $stmt = $pdo->prepare($sql);
 
-                $stmt->bindParam(':id', $id);
-                $stmt->bindParam(':datum', $datum);
-                $stmt->bindParam(':zeit', $zeit);
-                $stmt->bindParam(':ort', $ort);
-                $stmt->bindParam(':liter', $liter);
-                $stmt->bindParam(':preis', $preis);
-                $stmt->bindParam(':km_stand', $km_stand);
+                        $stmt->bindParam(':id', $id);
+                        $stmt->bindParam(':datum', $datum);
+                        $stmt->bindParam(':zeit', $zeit);
+                        $stmt->bindParam(':ort', $ort);
+                        $stmt->bindParam(':liter', $liter);
+                        $stmt->bindParam(':preis', $preis);
+                        $stmt->bindParam(':km_stand', $km_stand);
 
-                $stmt->execute();
+                        $stmt->execute();
 
-                if($stmt->rowCount() > 0)
-                {
-                    header('Content-Type: application/json');
-                    echo json_encode([
-                        'success' => true,
-                        'message' => 'Eintrag gespeichert'
-                    ]);
-                }
-                else
-                {
-                    header('Content-Type: application/json');
-                    echo json_encode([
-                        'success' => false,
-                        'message' => 'Eintrag konnte nicht gespeichert werden'
-                    ]);
-                }
+                        if($stmt->rowCount() > 0)
+                        {
+                            header('Content-Type: application/json');
+                            echo json_encode([
+                                'success' => true,
+                                'message' => 'Eintrag gespeichert als '. $id
 
+                            ]);
+                        }
+                        else
+                        {
+                            header('Content-Type: application/json');
+                            echo json_encode([
+                                'success' => false,
+                                'message' => 'Eintrag konnte nicht gespeichert werden'
+                            ]);
+                        }
+
+                    }
+                    else
+                    {
+                        header('Content-Type: application/json');
+                        echo json_encode([
+                            'success' => false,
+                            'message' => 'Eintrag konnte nicht gespeichert werden,Ungültiger Kilometerstand'
+                        ]);
+                    }
             }
             catch (Exception $e)
             {
@@ -83,7 +104,6 @@ if(isset($_POST['route']))
                     exit;
                 }
             }
-
             //TODO check if user is logged in
             try {
                 $id = $_POST['id'];
@@ -220,7 +240,6 @@ if(isset($_POST['route']))
                 ]);
                 exit;
             }
-
 
         default:
             echo("B");
