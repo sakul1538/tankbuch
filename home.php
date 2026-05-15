@@ -93,7 +93,7 @@ require_once 'auth_control.php';
                         <div class="card-body">
                             <h5 class="card-title">Einträge anzeigen</h5>
                             <p class="card-text">Hier kannst du deine vorhandenen Tankeinträge öffnen.</p>
-                            <a href="dataset.php?action=show_entries" class="btn btn-primary">
+                            <a href="dataset.php?action=show_entries&page=1" class="btn btn-primary">
                                 Zu den Einträgen
                             </a>
                         </div>

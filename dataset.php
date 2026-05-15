@@ -1,6 +1,7 @@
 <?php
 include_once 'auth_control.php';
 include_once 'sql_conn.php';
+$pagesize= 25;
 ?>
 <!DOCTYPE html>
 <html lang="de">
@@ -212,6 +213,20 @@ include_once 'sql_conn.php';
     ?>
 
     <div class="row">
+
+
+
+        <div class="col-md-9 ">
+            <ul class="pagination justify-content-center">
+                <li class="page-item"><a class="page-link" href="dataset.php?action=show_entries&page=1">Start</a></li>
+                <li class="page-item"><a class="page-link" href="dataset.php?action=show_entries&page=<?php  echo $_GET['page'] == 1 ?  $_GET['page']: $_GET['page'] - 1; ?>">Zurück</a></li>
+                <li class="page-item"><a class="page-link" href="dataset.php?action=show_entries&page=2"><?php echo $_GET['page'] ."/".ceil($entryCount/$pagesize); ?></a></li>
+                <li class="page-item"><a class="page-link" href="dataset.php?action=show_entries&page=<?php echo $_GET['page'] == ceil($entryCount/$pagesize) ? ceil($entryCount/$pagesize) : $_GET['page'] + 1; ?>">Vorwärts</a></li>
+                <li class="page-item"><a class="page-link" href="dataset.php?action=show_entries&page=<?php echo ceil($entryCount/$pagesize)  ?>">Ende</a></li>
+            </ul>
+</div>
+
+
         <div class="col-md-9">
         <table class="table table-striped table-hover width">
             <thead>
@@ -230,34 +245,50 @@ include_once 'sql_conn.php';
             </thead>
 
             <?php
-            $sql_con = connect_db();
-            $sql = "SELECT * FROM `tankprotokoll_einträge`";
-            $result = mysqli_query($sql_con, $sql);
+
+            //Wurde per KI von mysql nach PDO migriert 15.05.2026
+            $pdo_con = connect_pdo();
+            if(isset($_GET['page'])) {
+                $page = $_GET['page'];
+            } else {
+                $page = 1;
+            }
+
+            $limit = $page*$pagesize;
+            $offset = ($page-1)*$pagesize;
+
+            $sql = "SELECT * FROM ". TB_TANK ." LIMIT $limit OFFSET $offset";
+            $stmt = $pdo_con->prepare($sql);
+            $stmt->execute();
             $line = 0;
-            while($row = mysqli_fetch_assoc($result))
-            {
-                $id =$line;
-                $date=explode("-",$row['DATUM']); // 2026-5-03 Format
+
+            while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
+                $id = $line;
+
+                $date = explode("-", $row['DATUM']); // 2026-05-03 Format
                 $date_conterted = $date[2] . "." . $date[1] . "." . $date[0];
 
                 echo "<tr>";
-                echo "<td id='ID_".$id."'>" . $row['ID'] ." </td>";
-                echo "<td id='DATE_".$id."'>". $date_conterted . "</td>";
-                echo "<td id='TIME_".$id."'>". $row['ZEIT'] . "</td>";
-                echo "<td id='ORT_".$id."'>". $row['ORT'] . "</td>";
-                echo "<td id='MENGE_".$id."'>". $row['LITER'] . "</td>";
-                echo "<td id='PREIS_".$id."'>". $row['PREIS'] . "</td>";
-                echo "<td id='KM_STAND_".$id."'>". $row['KM_STAND'] . "</td>";
+                echo "<td id='ID_" . $id . "'>" . $row['ID'] . " </td>";
+                echo "<td id='DATE_" . $id . "'>" . $date_conterted . "</td>";
+                echo "<td id='TIME_" . $id . "'>" . $row['ZEIT'] . "</td>";
+                echo "<td id='ORT_" . $id . "'>" . $row['ORT'] . "</td>";
+                echo "<td id='MENGE_" . $id . "'>" . $row['LITER'] . "</td>";
+                echo "<td id='PREIS_" . $id . "'>" . $row['PREIS'] . "</td>";
+                echo "<td id='KM_STAND_" . $id . "'>" . $row['KM_STAND'] . "</td>";
 
                 echo "<td><button type='button' class='btn btn-danger' onclick='deleteEntry(" . $id . ")' id='delete_button_" . $id . "'>";
                 echo "<i class='fas fa-trash'></i></button></td>";
+
                 echo "<td><button type='button' class='btn btn-warning' onclick='editEntry(" . $id . ")' id='edit_button_" . $id . "'>";
                 echo "<i class='fas fa-edit'></i></button></td>";
+
                 echo "</tr>";
 
                 $line++;
             }
-            close_db($sql_con);
+
+            $pdo_con = null;
             ?>
 
         </table>

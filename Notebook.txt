@@ -11,4 +11,4 @@ Folgende Funktionen sind zu implementieren:
 [] Mehrbenuzerschnittstellen vorbereiten
 [] CSV  Import
 [] Bei Sehr vielen Einträgen Page's verwenden
-[] KM Stand bei neuen Einträg kontrolliern lassen
+[x] KM Stand bei neuen Einträg kontrolliern lassen

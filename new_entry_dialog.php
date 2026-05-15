@@ -302,7 +302,7 @@
             <button id="speichern" type="button" onclick="saveEntry()">Speichern</button>
             <button id="reset" type="button" onClick="window.location.reload()">Reset</button>
             <button id="abbrechen" type="button"  onClick="window.location.href='home.php'">Abbrechen</button>
-            <button id="Einträge" type="button"  onClick="window.location.href='dataset.php?action=show_entries'">Einträge</button>
+            <button id="Einträge" type="button"  onClick="window.location.href='dataset.php?action=show_entries&page=1'">Einträge</button>
         </div>
 
         <p class="hint">Tipp: Mit Tab kannst du schnell durch alle Felder springen.</p>
