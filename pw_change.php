@@ -1,64 +1,52 @@
 <?php
-session_start();
 error_reporting(E_ALL);
+session_start();
+require_once 'auth_control.php';
 require_once 'sql_conn.php';
 
-if(!isset($_SESSION['login']))
+if(isset($_POST['passcode']) && isset($_POST['password_neu']))
 {
-    $_SESSION['login'] = false;
-    $_SESSION['user_id'] = null;
-    header('Location: login.php');
 
-}
-else {
-if(($_SESSION['login']==true))
-header('Location: main.php');
-}
-{
-  //Get user id from session
-    if(isset($_POST['username']) AND isset($_POST['password']))
+    $password_neu = $_POST['password_neu'];
+
+    if(empty($password_neu))
     {
-        $username = $_POST['username'];
-        $password = $_POST['password'];
+        $_SESSION['error'] = 'Bitte alle Felder ausfüllen';
+        header('Location: pw_change.php');
+        exit;
+    }else
+    {
+        $auth= file_get_contents("https://www.authenticatorapi.com/Validate.aspx?Pin=".$_POST['passcode']."&SecretCode=0654");
+        if($auth == "True")
+        {
+            $pdo_con = connect_pdo();
+             $hashed_password = hash('sha256', $password_neu);
 
-        $pdo_con = connect_pdo();
+            $pdo_con->exec("UPDATE ".TB_USER." SET PASSWORD = '".$hashed_password."' WHERE ID = '".$_SESSION['user_id']."'");
+            $_SESSION['error'] = 'Authentifizierung erfolgreich, Passwort Geändert';
 
-   $sql = "SELECT PASSWORD,ID FROM ".TB_USER." WHERE USER_NAME = :username";
-   $stmt = $pdo_con->prepare($sql);
-   $stmt->bindParam(':username', $username);
-   $stmt->execute();
+            //Auto logout after 5 seconds
+            header('Location: logout.php');
 
-   $result = $stmt->fetch(PDO::FETCH_ASSOC);
-
-   //sha
-   $hashed_password = hash('sha256', $password);
-
-
-   if($result['PASSWORD'] == $hashed_password)
-   {
-         $timestamp  = time();
-            $sql = "UPDATE ".TB_USER." SET LOGIN = :timestamp WHERE USER_NAME = :username";
-            $stmt = $pdo_con->prepare($sql);
-            $stmt->bindParam(':username', $username);
-            $stmt->bindParam(':timestamp', $timestamp);
-            $stmt->execute();
-
-            $_SESSION['login'] = true;
-            $_SESSION['user_id'] = $result['ID'];
-            $_SESSION['login_timestamp'] = $timestamp;
-            $_SESSION['username']=$username;
-            header('Location: main.php');
-   }
+            exit;
+        }
+        else
+        {
+            $_SESSION['error'] = 'Authentifizierung fehlgeschlagen';
+            header('Location: pw_change.php');
+            exit;
+        }
     }
-
 }
+
 ?>
+
 <!DOCTYPE html>
 <html lang="de">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login - Tankprotokoll</title>
+    <title>Passwort ändern - Tankprotokoll</title>
     <style>
         :root {
             --bg: #f4f7fb;
@@ -179,27 +167,41 @@ header('Location: main.php');
     </style>
 </head>
 <body>
-    <main class="login-card">
-        <h1>Anmelden Madza 2</h1>
-        <p class="subtitle">Bitte melde dich an, um das Tankprotokoll zu öffnen.</p>
+<main class="login-card">
+    <h1>Passwort ändern</h1>
+    <p class="subtitle">Bitte gib dein aktuelles Passwort ein, um es zu ändern.</p>
 
-        <form action="login.php" method="POST">
-            <div class="field">
-                <label for="username">Benutzername</label>
-                <input type="text" id="username" name="username" placeholder="Benutzername" required>
-            </div>
+    <form action="pw_change.php" method="POST">
+        <div class="field">
+            <label for="password_neu">Passwort Neu</label>
+            <input type="password" id="password_neu" name="password_neu" placeholder="Passwort neu" required>
+        </div>
 
-            <div class="field">
-                <label for="password">Passwort</label>
-                <input type="password" id="password" name="password" placeholder="Passwort" required>
-            </div>
+        <div class="field">
+            <label for="passcode">Passcode</label>
+            <input type="password"  id="passcode" name="passcode" placeholder="Passcode" required>
+        </div>
 
-            <div class="actions">
-                <button type="submit">Login</button>
-            </div>
-        </form>
+        <div class="actions">
+            <button type="submit">Ändern</button>
+        </div>
 
-        <p class="hint">Tipp: Mit Enter kannst du das Formular absenden.</p>
-    </main>
+        <div class="actions">
+            <button type="button" onclick="window.location.href='index.php'">Abbrechen</button>
+        </div
+    </form>
+
+    <p class="hint">Tipp: Mit Enter kannst du das Formular absenden.</p>
+    <?php
+    if(isset($_SESSION['error']))
+    {
+        echo '<p class="error" style="color:red">' . $_SESSION['error'] . '</p>';
+        unset($_SESSION['error']);
+    }
+    ?>
+
+
+
+</main>
 </body>
 </html>

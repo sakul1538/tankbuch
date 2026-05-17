@@ -55,7 +55,7 @@ require_once 'auth_control.php';
         <div class="col-lg-10 col-xl-9">
 
             <div class="app-header">
-                <h1 class="mb-1">Tankprotokoll</h1>
+                <h1 class="mb-1">Tankprotokoll <?php echo $_SESSION['username']; ?></h1>
             </div>
 
             <ul class="nav nav-tabs mb-3" id="appTabs" role="tablist">
@@ -72,16 +72,23 @@ require_once 'auth_control.php';
                     </button>
                 </li>
 
+
                 <li class="nav-item" role="presentation">
-                    <button class="nav-link" id="logout-tab" data-bs-toggle="tab"
-                            data-bs-target="#logout" type="button" role="tab" aria-controls="logout" aria-selected="false">
-                        Logout
+                    <button class="nav-link" id="settings-tab" data-bs-toggle="tab"
+                            data-bs-target="#settings" type="button" role="tab" aria-controls="info" aria-selected="false">
+                        Einstellungen
                     </button>
                 </li>
                 <li class="nav-item" role="presentation">
                     <button class="nav-link" id="info-tab" data-bs-toggle="tab"
                             data-bs-target="#info" type="button" role="tab" aria-controls="info" aria-selected="false">
                         Info
+                    </button>
+                </li>
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link" id="logout-tab" data-bs-toggle="tab"
+                            data-bs-target="#logout" type="button" role="tab" aria-controls="logout" aria-selected="false">
+                        Logout
                     </button>
                 </li>
             </ul>
@@ -111,11 +118,26 @@ require_once 'auth_control.php';
                             </a>
                         </div>
                     </div>
-                </div><div class="tab-pane fade" id="info" role="tabpanel" aria-labelledby="info-tab">
+
+                </div>
+
+                <div class="tab-pane fade" id="settings" role="tabpanel" aria-labelledby="settings-tab">
+                    <div class="card">
+                        <div class="card-body">
+                            <h5 class="card-title">Einstellung</h5>
+                            <p class="card-text">Hier kannst du deine Einstellungen verändern.</p>
+                            <ul>
+                                <li><a href="pw_change.php">Passwort ändern</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="tab-pane fade" id="info" role="tabpanel" aria-labelledby="info-tab">
                     <div class="card">
                         <div class="card-body">
                             <h5 class="card-title">Info</h5>
-                            <p class="card-text">Version 15.05.2026</p>
+                            <p class="card-text">Letzte Aktualisierung  17.05.2026</p>
                         </div>
                     </div>
                 </div>

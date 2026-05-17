@@ -7,9 +7,10 @@ $pdo_con = connect_pdo();
 $sql = "SELECT * FROM `" . TB_TANK . "`";
 $stmt = $pdo_con->prepare($sql);
 $stmt->execute();
+$datestamp= date("Ymd");
 
 header('Content-Type: text/csv; charset=utf-8');
-header('Content-Disposition: attachment; filename="tankprotokoll.csv"');
+header('Content-Disposition: attachment; filename="tankprotokoll_' . $datestamp . '.csv"');
 
 $output = fopen('php://output', 'w');
 
