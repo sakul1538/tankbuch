@@ -32,6 +32,7 @@ function write_log($message,$typ)
     } catch (Exception $e)
     {
         echo 'Error writing log: ' . $e->getMessage();
+        exit;
     }
 
 }
