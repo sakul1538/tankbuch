@@ -1,0 +1,12 @@
+31.05.2026,14:05:06,1,[127.0.0.1]http://localhost/tankprotokoll/login.php,INFO,User successfully logged in: BE421622
+31.05.2026,14:05:31,1,[127.0.0.1]http://localhost/tankprotokoll/new_entry_dialog.php,INFO,Neuen Eintrag gespeichert
+31.05.2026,14:05:33,1,[127.0.0.1]http://localhost/tankprotokoll/new_entry_dialog.php,INFO,Dataset page loaded from USER 1
+31.05.2026,14:05:55,1,[127.0.0.1]http://localhost/tankprotokoll/home.php,INFO,Dataset page loaded from USER 1
+31.05.2026,14:05:02,1,[127.0.0.1]http://localhost/tankprotokoll/dataset.php?action=show_entries&page=1,INFO,Dataset page loaded from USER 1
+31.05.2026,14:05:39,1,[127.0.0.1]http://localhost/tankprotokoll/dataset.php?action=show_entries&page=1,INFO,User last login time is 0, redirecting to login page
+31.05.2026,14:05:48,1,[127.0.0.1]http://localhost/tankprotokoll/login.php,INFO,User successfully logged in: BE421622
+31.05.2026,14:05:36,1,[127.0.0.1]http://localhost/tankprotokoll/home.php,INFO,User logout for user ID '1'
+31.05.2026,14:05:36,guest,[127.0.0.1]http://localhost/tankprotokoll/home.php,INFO,User attempted login without session
+31.05.2026,14:05:46,1,[127.0.0.1]http://localhost/tankprotokoll/login.php,INFO,User successfully logged in: BE421622
+31.05.2026,14:05:52,1,[127.0.0.1]http://localhost/tankprotokoll/home.php,INFO,User logout for user ID '1'
+31.05.2026,14:05:52,guest,[127.0.0.1]http://localhost/tankprotokoll/home.php,INFO,User attempted login without session
