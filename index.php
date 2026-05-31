@@ -1,5 +1,6 @@
 <?php
 include 'auth_control.php';
+require_once 'error_debug.php';
 
 switch ($_SESSION['login'])
 {

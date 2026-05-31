@@ -1,22 +1,29 @@
 <?php
 //Mysql query to delete user session
 session_start();
+require_once 'error_debug.php';
+require_once  'sql_conn.php';
+
+try {
+    if (isset($_SESSION['user_id']))
+    {
+        $pdo_conn = connect_pdo();
+        $sql = "UPDATE " . TB_USER . " SET LOGIN = :login WHERE ID = :id";
+        $stmt = $pdo_conn->prepare($sql);
+        $stmt->execute([
+                ':login' => 0,
+                ':id' => $_SESSION['user_id'],
+        ]);
+
+    }
+} catch (Exception $e)
+{
+    error_log($e->getMessage());
+    echo 'Ein Fehler ist aufgetreten.';
+}
+$_SESSION = [];
 session_destroy();
-
-
+header('Location: login.php');
+exit;
 ?>
-
-
-<!DOCTYPE html>
-<html lang="de">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Logout</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
-</head>
-<body onload="javascript:localStorage.clear(); window.location.href = 'login.php';">
-</body>
-</html>
 

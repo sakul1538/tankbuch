@@ -1,5 +1,6 @@
 <?php
 require_once 'auth_control.php';
+require_once 'error_debug.php';
 ?>
 
 <!DOCTYPE html>

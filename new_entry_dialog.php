@@ -8,6 +8,7 @@
 
         require_once 'auth_control.php';
         require_once 'sql_conn.php';
+        require_once 'error_debug.php';
     }
     else
     {
@@ -285,10 +286,6 @@
                 {
                     echo "0 km";
                 }
-
-
-
-
 
                 ?>
                 )

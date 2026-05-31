@@ -1,6 +1,6 @@
 <?php
 session_start();
-error_reporting(E_ALL);
+require_once 'error_debug.php';
 require_once 'sql_conn.php';
 
 if(!isset($_SESSION['login']))
@@ -36,7 +36,7 @@ header('Location: main.php');
 
    if($result['PASSWORD'] == $hashed_password)
    {
-         $timestamp  = time();
+            $timestamp  = time();
             $sql = "UPDATE ".TB_USER." SET LOGIN = :timestamp WHERE USER_NAME = :username";
             $stmt = $pdo_con->prepare($sql);
             $stmt->bindParam(':username', $username);

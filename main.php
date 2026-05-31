@@ -1,5 +1,6 @@
 <?php
 require_once 'auth_control.php';
+require_once 'error_debug.php';
 
     if ($_SESSION['login'] == true and $_SESSION['user_id'] != null)
     {

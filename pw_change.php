@@ -1,6 +1,6 @@
 <?php
-error_reporting(E_ALL);
 session_start();
+require_once 'error_debug.php';
 require_once 'auth_control.php';
 require_once 'sql_conn.php';
 

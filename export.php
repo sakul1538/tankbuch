@@ -1,6 +1,7 @@
 <?php
-include 'sql_conn.php';
-include 'auth_control.php';
+include_once 'sql_conn.php';
+include_once 'auth_control.php';
+require_once 'error_debug.php';
 
 $pdo_con = connect_pdo();
 

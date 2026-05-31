@@ -3,9 +3,11 @@ define('DB_SERVER', 'localhost');
 define('DB_USERNAME', 'lukas');
 define('DB_PASSWORD', 'passwort');
 define('DB_DATABASE', 'tankprotokoll_db');
+define("AUTOLOGOUT_TIME",900); // 15min
 
 define('TB_USER', 'user');
 define('TB_TANK', 'tankprotokoll_einträge');
+
 
 function connect_db()
 {

@@ -1,6 +1,7 @@
 <?php
-include 'sql_conn.php';
-include 'auth_control.php';
+require_once 'sql_conn.php';
+require_once 'auth_control.php';
+require_once 'error_debug.php';
 
 if(isset($_POST['route']))
 {

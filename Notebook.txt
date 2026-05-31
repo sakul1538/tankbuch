@@ -4,15 +4,18 @@ Folgende Funktionen sind zu implementieren:
 [] User Authentifizierung
 [x] Tankstellen Autovervollstädigung gem. Liste
 [x] KM Stand min Wert ermitteln (Kilometerstand)
-[x]  Dateiname CVS export datum Anhängen
+[x] Dateiname CVS export datum Anhängen
 [x] Einträge Zählen  und anzeigen
 [x] Summmen Anzeigen
 [x] Schnittverbrauch Anzeigen
-[] Mehrbenuzerschnittstellen vorbereiten
+[]  Mehrbenuzerschnittstellen vorbereiten
 [x] Bei Sehr vielen Einträgen Page's verwenden
 [x] KM Stand bei neuen Einträg kontrolliern lassen
 [x] Suchfunktion
-[]passwort ändern
+[x] Passwort ändern
+[x] Auto Logout nach 15 Minuten
+[] Error Handling E_ALL
+
 
 
 

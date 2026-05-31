@@ -1,6 +1,7 @@
 <?php
 include_once 'auth_control.php';
 include_once 'sql_conn.php';
+require_once 'error_debug.php';
 $pagesize= 25;
 ?>
 <!DOCTYPE html>
