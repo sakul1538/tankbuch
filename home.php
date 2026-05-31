@@ -125,7 +125,7 @@ require_once 'error_debug.php';
                 <div class="tab-pane fade" id="settings" role="tabpanel" aria-labelledby="settings-tab">
                     <div class="card">
                         <div class="card-body">
-                            <h5 class="card-title">Einstellung</h5>
+
                             <p class="card-text">Hier kannst du deine Einstellungen verändern.</p>
                             <ul>
                                 <li><a href="pw_change.php">Passwort ändern</a></li>
@@ -137,8 +137,12 @@ require_once 'error_debug.php';
                 <div class="tab-pane fade" id="info" role="tabpanel" aria-labelledby="info-tab">
                     <div class="card">
                         <div class="card-body">
-                            <h5 class="card-title">Info</h5>
-                            <p class="card-text">Letzte Aktualisierung  31.05.2026</p>
+
+                            <p class="card-text">Letzte Anmeldung :  <?php echo  date('d.m.Y H:m:s',$_SESSION['login_timestamp']); ?></p>
+                            <p class="card-text">Angemeldet als :  <?php echo  $_SESSION['username'] ?? 'N/A' ?></p>
+                            <p class="card-text">Auto Logout: <?php echo AUTOLOGOUT_TIME/60 ."min" ?? 'N/A' ?></p>
+
+                            <small><p class="card-text">Letzte Software Aktualisierung  31.05.2026</p></small>
                         </div>
                     </div>
                 </div>
@@ -146,7 +150,7 @@ require_once 'error_debug.php';
                 <div class="tab-pane fade" id="logout" role="tabpanel" aria-labelledby="logout-tab">
                     <div class="card">
                         <div class="card-body">
-                            <h5 class="card-title">Logout</h5>
+
                             <p class="card-text">Hier kannst du dich sicher abmelden.</p>
                             <a href="logout.php" class="btn btn-danger">
                                 Logout

@@ -2,6 +2,7 @@
 include_once 'auth_control.php';
 include_once 'sql_conn.php';
 require_once 'error_debug.php';
+require_once 'log.php';
 $pagesize= 25;
 ?>
 <!DOCTYPE html>
@@ -305,6 +306,7 @@ $pagesize= 25;
 
             //Wurde per KI von mysql nach PDO migriert 15.05.2026
             $pdo_con = connect_pdo();
+            write_log("Dataset page loaded from user ","INFO");
             if(isset($_GET['page'])) {
                 $page = $_GET['page'];
             } else {

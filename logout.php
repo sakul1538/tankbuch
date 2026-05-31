@@ -3,6 +3,7 @@
 session_start();
 require_once 'error_debug.php';
 require_once  'sql_conn.php';
+require_once 'log.php';
 
 try {
     if (isset($_SESSION['user_id']))
@@ -14,12 +15,14 @@ try {
                 ':login' => 0,
                 ':id' => $_SESSION['user_id'],
         ]);
+        write_log("User logout","INFO");
 
     }
 } catch (Exception $e)
 {
     error_log($e->getMessage());
     echo 'Ein Fehler ist aufgetreten.';
+    write_log("Error during user logout: ".$e->getMessage(),"ERROR");
 }
 $_SESSION = [];
 session_destroy();

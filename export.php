@@ -2,6 +2,7 @@
 include_once 'sql_conn.php';
 include_once 'auth_control.php';
 require_once 'error_debug.php';
+require_once 'log.php';
 
 $pdo_con = connect_pdo();
 
@@ -19,6 +20,7 @@ fputcsv($output, ['ID', 'DATUM', 'ZEIT', 'ORT', 'MENGE', 'PREIS', 'KM_STAND']);
 
 while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
     fputcsv($output, $row);
+    write_log("Exported Dataset", "DEBUG");
 }
 
 fclose($output);

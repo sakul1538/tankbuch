@@ -3,6 +3,7 @@ session_start();
 require_once 'error_debug.php';
 require_once 'auth_control.php';
 require_once 'sql_conn.php';
+require_once 'log.php';
 
 if(isset($_POST['passcode']) && isset($_POST['password_neu']))
 {
@@ -24,6 +25,7 @@ if(isset($_POST['passcode']) && isset($_POST['password_neu']))
 
             $pdo_con->exec("UPDATE ".TB_USER." SET PASSWORD = '".$hashed_password."' WHERE ID = '".$_SESSION['user_id']."'");
             $_SESSION['error'] = 'Authentifizierung erfolgreich, Passwort Geändert';
+            write_log("Password change by user ","INFO");
 
             //Auto logout after 5 seconds
             header('Location: logout.php');

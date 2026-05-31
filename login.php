@@ -2,9 +2,11 @@
 session_start();
 require_once 'error_debug.php';
 require_once 'sql_conn.php';
+require_once 'log.php';
 
 if(!isset($_SESSION['login']))
 {
+    write_log("User attempted login without session", "INFO");
     $_SESSION['login'] = false;
     $_SESSION['user_id'] = null;
     header('Location: login.php');
@@ -47,7 +49,13 @@ header('Location: main.php');
             $_SESSION['user_id'] = $result['ID'];
             $_SESSION['login_timestamp'] = $timestamp;
             $_SESSION['username']=$username;
+            write_log("User successfully logged in", "INFO");
             header('Location: main.php');
+   }
+   else
+   {
+       write_log("User login failed", "ERROR");
+       header('Location: login.php');
    }
     }
 
@@ -180,7 +188,7 @@ header('Location: main.php');
 </head>
 <body>
     <main class="login-card">
-        <h1>Anmelden Madza 2</h1>
+        <h1>Anmelden Tankbuch</h1>
         <p class="subtitle">Bitte melde dich an, um das Tankprotokoll zu öffnen.</p>
 
         <form action="login.php" method="POST">

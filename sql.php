@@ -2,6 +2,7 @@
 require_once 'sql_conn.php';
 require_once 'auth_control.php';
 require_once 'error_debug.php';
+require_once 'log.php';
 
 if(isset($_POST['route']))
 {
@@ -11,8 +12,6 @@ if(isset($_POST['route']))
         case 'new_entry':
 
             //todo check if user is logged in
-
-
 
             $id = uniqid();
             $ort = $_POST['tankstelle'];
@@ -59,6 +58,7 @@ if(isset($_POST['route']))
                                 'message' => 'Eintrag gespeichert als '. $id
 
                             ]);
+                            write_log('Neuen Eintrag gespeichert', 'INFO');
                         }
                         else
                         {
@@ -158,6 +158,7 @@ if(isset($_POST['route']))
                             'preis' => $preis
                         ]
                     ]);
+                    write_log(' Eintrag '.$id.' geändert', 'INFO');
 
                     return;
                 }
@@ -230,6 +231,7 @@ if(isset($_POST['route']))
                     'success' => true,
                     'message' => " 1 Eintrag mit ID $id konnte  gelöscht werden"
                 ]);
+                write_log(' Eintrag '.$id.' gelöscht', 'INFO');
                 exit;
             }
             else
