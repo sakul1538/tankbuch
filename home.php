@@ -138,7 +138,7 @@ require_once 'error_debug.php';
                     <div class="card">
                         <div class="card-body">
                             <h5 class="card-title">Info</h5>
-                            <p class="card-text">Letzte Aktualisierung  17.05.2026</p>
+                            <p class="card-text">Letzte Aktualisierung  31.05.2026</p>
                         </div>
                     </div>
                 </div>
