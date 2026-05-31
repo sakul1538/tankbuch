@@ -1,6 +1,6 @@
 <?php
 define('DB_SERVER', 'localhost');
-define('DB_USERNAME', 'lukas');
+define('DB_USERNAME', 'admin');
 define('DB_PASSWORD', 'passwort');
 define('DB_DATABASE', 'tankprotokoll_db');
 define("AUTOLOGOUT_TIME",900); // 15min
